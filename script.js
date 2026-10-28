@@ -8,12 +8,11 @@ function createHeart() {
     heart.innerText = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
     heart.style.left = Math.random() * 100 + 'vw';
     heart.style.animationDuration = Math.random() * 3 + 5 + 's';
-    heart.style.fontSize = Math.random() * 15 + 10 + 'px'; // Smaller for mobile
+    heart.style.fontSize = Math.random() * 15 + 10 + 'px';
     heartsContainer.appendChild(heart);
     
     setTimeout(() => { heart.remove(); }, 8000);
 }
-// Slower interval so it doesn't lag mobile phones
 setInterval(createHeart, 600); 
 
 // --- 2. STEP NAVIGATION ---
@@ -22,11 +21,14 @@ const totalSteps = 6;
 const progressBar = document.getElementById('progress-bar');
 
 function nextStep(step) {
+    if (step === 6) {
+        sendDataToEmail();
+    }
+
     document.getElementById(`step-${currentStep}`).classList.remove('active');
     document.getElementById(`step-${step}`).classList.add('active');
     currentStep = step;
     
-    // Update progress bar
     const progressPercentage = (currentStep / totalSteps) * 100;
     progressBar.style.width = progressPercentage + '%';
 }
@@ -38,10 +40,9 @@ function moveNoButton() {
     const y = Math.random() * 150 - 75;
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
 }
-
 noBtn.addEventListener('mouseover', moveNoButton);
 noBtn.addEventListener('touchstart', function(e) {
-    e.preventDefault(); // Prevents phone from registering the tap
+    e.preventDefault(); 
     moveNoButton();
 });
 
@@ -55,55 +56,58 @@ function validateDateTime() {
         return;
     }
 
-    // Save to hidden form fields for the email
     document.getElementById('hidden-date').value = dateInput;
     document.getElementById('hidden-time').value = timeInput;
     
-    // Update the text in Step 5
-    document.getElementById('final-time').innerText = timeInput;
+    let timeDisplay = timeInput;
+    let [hours, minutes] = timeInput.split(':');
+    let ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; 
+    timeDisplay = hours + ':' + minutes + ' ' + ampm;
+    
+    document.getElementById('final-time').innerText = timeDisplay;
 
     nextStep(4);
 }
 
-// --- 5. FOOD SELECTION ---
-let selectedFood = "";
-
+// --- 5. FOOD SELECTION & VALIDATION ---
 function selectFood(element, foodName) {
     const options = document.querySelectorAll('.option');
     options.forEach(opt => opt.classList.remove('selected'));
     
     element.classList.add('selected');
-    selectedFood = foodName;
-    
-    document.getElementById('food-btn').disabled = false;
     document.getElementById('hidden-food').value = foodName;
+    
+    // THIS IS THE MAGIC: It enables the button when they click
+    document.getElementById('food-btn').disabled = false;
 }
 
-// --- 6. HANDLE THE FINAL SUBMIT ---
-document.getElementById('final-form').addEventListener('submit', function(e) {
-    e.preventDefault(); 
+function confirmFood() {
+    const selectedFood = document.getElementById('hidden-food').value;
     
-    const form = this;
-    const formData = new FormData(form);
-    const submitBtn = form.querySelector('button[type="submit"]');
+    // Backup check just in case
+    if (!selectedFood) {
+        alert("Please select a food or drink option first! 🍕🥤");
+        return;
+    }
     
-    submitBtn.innerText = "Processing Payment... 💸";
-    submitBtn.disabled = true;
+    nextStep(5);
+}
 
-    // Send data to FormSubmit silently
+// --- 6. SEND DATA TO EMAIL IN BACKGROUND ---
+function sendDataToEmail() {
+    const form = document.getElementById('final-form');
+    const formData = new FormData(form);
+
     fetch(form.action, {
         method: 'POST',
         body: formData
     })
     .then(response => {
-        // Show the final prank alert
-        alert("APRIL FOOLS! 😂😂\n\nI'm not actually charging you $499. You just got pranked!\n\n(Screenshot this and send it to me!)");
-        submitBtn.innerText = "pay $499 & confirm →";
-        submitBtn.disabled = false;
+        console.log("Email sent successfully to yumarfaruq81@gmail.com!");
     })
     .catch(error => {
-        alert("Error sending data, but the joke is still on you 😂");
-        submitBtn.innerText = "pay $499 & confirm →";
-        submitBtn.disabled = false;
+        console.log("Error sending email:", error);
     });
-});
+}
