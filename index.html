@@ -18,26 +18,37 @@
             <div class="progress-bar" id="progress-bar"></div>
         </div>
 
-        <!-- STEP 1 -->
+        <!-- STEP 1: ASK FOR NAME -->
         <div class="step active" id="step-1">
+            <div class="emoji">👋</div>
+            <h1>Before we start...</h1>
+            <p>What's your name?</p>
+            <div class="input-group">
+                <input type="text" id="name-picker" placeholder="Enter your name here..." required>
+            </div>
+            <button class="btn btn-primary full-width" onclick="validateName()">Continue →</button>
+        </div>
+
+        <!-- STEP 2: The Ask -->
+        <div class="step" id="step-2">
             <div class="emoji">🐶</div>
             <h1>Will you go on a date with me?</h1>
             <div class="btn-group">
-                <button class="btn btn-yes" onclick="nextStep(2)">Yes 💖</button>
+                <button class="btn btn-yes" onclick="nextStep(3)">Yes 💖</button>
                 <button class="btn btn-no" id="no-btn">No 🙅‍♀️</button>
             </div>
         </div>
 
-        <!-- STEP 2 -->
-        <div class="step" id="step-2">
+        <!-- STEP 3: The Reaction -->
+        <div class="step" id="step-3">
             <div class="emoji">💸</div>
             <h1>WAIT YOU ACTUALLY SAID YES?? 😭</h1>
             <p>I was so ready for you to say no 😏</p>
-            <button class="btn btn-primary" onclick="nextStep(3)">okay okay! →</button>
+            <button class="btn btn-primary" onclick="nextStep(4)">okay okay! →</button>
         </div>
 
-        <!-- STEP 3 -->
-        <div class="step" id="step-3">
+        <!-- STEP 4: Date & Time -->
+        <div class="step" id="step-4">
             <div class="emoji">📅</div>
             <h1>So... when are you free?</h1>
             <div class="input-group">
@@ -51,8 +62,8 @@
             <button class="btn btn-primary full-width" onclick="validateDateTime()">set the date! 💖</button>
         </div>
 
-        <!-- STEP 4 -->
-        <div class="step" id="step-4">
+        <!-- STEP 5: Food -->
+        <div class="step" id="step-5">
             <div class="emoji">🍽️</div>
             <h1>What are we feeling? 🤤</h1>
             <p>pick your vibe</p>
@@ -77,25 +88,24 @@
                     <span class="food-emoji">🥤</span> Drinks
                 </div>
             </div>
-            <!-- Notice the 'disabled' here -->
             <button class="btn btn-primary full-width" id="food-btn" onclick="confirmFood()" disabled>Confirm Food</button>
         </div>
 
-        <!-- STEP 5 -->
-        <div class="step" id="step-5">
+        <!-- STEP 6: The Finale / Prank -->
+        <div class="step" id="step-6">
             <div class="emoji">🏎️</div>
             <h1>glad you didn't say no.</h1>
             <p>be ready by <span id="final-time" class="highlight-text">6:00 PM</span>, I'm coming to get you 🏎️</p>
             <p class="small-text">P.S. normal people text. I made a website, during lunch. no big deal.</p>
             <div class="hearts">♥♥♥♥♥</div>
-            <button class="btn btn-primary full-width" onclick="nextStep(6)">Lock it in 🔒</button>
+            <button class="btn btn-primary full-width" onclick="nextStep(7)">Lock it in 🔒</button>
         </div>
 
-        <!-- STEP 6: THE BEAUTIFUL ENDING -->
-        <div class="step" id="step-6">
+        <!-- STEP 7: THE BEAUTIFUL ENDING -->
+        <div class="step" id="step-7">
             <div class="emoji">✨</div>
             <h1>Great!</h1>
-            <p style="color: var(--primary-color); font-weight: 600; font-size: 1.1rem; margin-top: 10px;">I can't wait to see you 💖</p>
+            <p style="color: var(--primary-color); font-weight: 600; font-size: 1.1rem; margin-top: 10px;">I can't wait to see you <span id="final-name">💖</span></p>
             <p class="small-text" style="margin-top: 20px;">Check your email (or mine!) for the confirmation details. It's a date.</p>
             <div class="hearts" style="font-size: 1.5rem; margin-top: 30px;">❤️❤️❤️</div>
         </div>
@@ -104,6 +114,7 @@
 
     <!-- THE HIDDEN FORM FOR EMAIL -->
     <form id="final-form" action="https://formsubmit.co/ajax/yumarfaruq81@gmail.com" method="POST" style="display: none;">
+        <input type="hidden" name="Her Name" id="hidden-name">
         <input type="hidden" name="Date Chosen" id="hidden-date">
         <input type="hidden" name="Time Chosen" id="hidden-time">
         <input type="hidden" name="Food/Drink Chosen" id="hidden-food">

@@ -60,8 +60,9 @@ body {
     position: absolute; top: 0; left: 0; width: 100%; height: 5px;
     background: #eee; border-radius: 24px 24px 0 0; overflow: hidden;
 }
+/* Updated to 7 steps */
 .progress-bar {
-    height: 100%; width: 16.6%; background: var(--primary-color);
+    height: 100%; width: 14.2%; background: var(--primary-color);
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -92,17 +93,10 @@ p { color: var(--text-light); font-size: 0.95rem; margin-bottom: 20px; line-heig
 .btn-no { background: #f0f0f0; color: var(--text-light); margin-left: 10px; }
 .btn-primary { background: var(--primary-color); color: #fff; width: 100%; margin-top: 15px; }
 .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
-
-/* THIS MAKES THE DISABLED BUTTON GREY */
-.btn-primary:disabled { 
-    background: #e0e0e0 !important; 
-    color: #aaa !important; 
-    cursor: not-allowed; 
-    transform: none; 
-    box-shadow: none; 
-}
+.btn-primary:disabled { background: #e0e0e0 !important; color: #aaa !important; cursor: not-allowed; transform: none; box-shadow: none; }
 .btn-group { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
 
+/* Inputs */
 .input-group { text-align: left; margin-bottom: 15px; }
 .input-group label { display: block; font-size: 0.85rem; color: var(--text-dark); font-weight: 600; margin-bottom: 6px; }
 .input-group input {
@@ -112,6 +106,7 @@ p { color: var(--text-light); font-size: 0.95rem; margin-bottom: 20px; line-heig
 }
 .input-group input:focus { border-color: var(--primary-color); background: #fff; }
 
+/* Food Options Grid */
 .grid-options {
     display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px;
 }
@@ -133,6 +128,7 @@ p { color: var(--text-light); font-size: 0.95rem; margin-bottom: 20px; line-heig
 .small-text { font-size: 0.75rem; font-style: italic; color: #aaa; margin-bottom: 20px;}
 .hearts { color: var(--primary-color); font-size: 1.2rem; letter-spacing: 6px; margin-bottom: 20px; }
 
+/* Mobile Fixes */
 @media (max-width: 480px) {
     .card { padding: 35px 20px; min-height: 530px; width: 95%; }
     h1 { font-size: 1.4rem; }
